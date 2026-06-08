@@ -1,0 +1,147 @@
+﻿@page "/domaci1"
+@rendermode InteractiveServer
+
+<div class="container">
+    <h2>Sve Blazor Komponente</h2>
+
+    <section class="zadatak-box">
+        <p class="@klasaBoje">Ovaj tekst mijenja boju ovisno o aktivnoj CSS klasi.</p>
+        <button class="btn btn-primary" @onclick="PromijeniBoju">Promijeni boju</button>
+    </section>
+
+
+    <section class="zadatak-box">
+        <p>Trenutna vrijednost brojača: <strong>@brojac</strong></p>
+        <button class="btn btn-success" @onclick="Povecaj">+</button>
+        <button class="btn btn-danger" @onclick="Smanji">-</button>
+    </section>
+
+    <section class="zadatak-box">
+        <div class="forma-grupa">
+            <label for="ime">Ime:</label>
+            <input id="ime" @bind="ime" @bind:event="oninput" placeholder="Unesite ime..." />
+        </div>
+        <div class="forma-grupa">
+            <label for="prezime">Prezime:</label>
+            <input id="prezime" @bind="prezime" @bind:event="oninput" placeholder="Unesite prezime..." />
+        </div>
+
+        <p class="rezultat-ime">
+            Puno ime: <strong>@ime @prezime</strong>
+        </p>
+    </section>
+
+    <section class="zadatak-box">
+        <button @onclick="PromijeniVidljivost">Prikaži ili sakrij</button>
+
+        @if (prikaziPoruku)
+        {
+            <p class="poruka">Ova poruka je inace sakrivena.</p>
+        }
+    </section>
+
+    <section class="zadatak-box">
+
+        <p>Neke dobre igrice:</p>
+        <ul>
+            @foreach (var igrica in omiljeneIgrice)
+            {
+                <li>@igrica</li>
+            }
+        </ul>
+    </section>
+
+    <section class="zadatak-box">
+        <div class="forma-grupa">
+            <input @bind="noviZadatak" placeholder="Upiši novi zadatak..." />
+            <button class="btn btn-primary" @onclick="DodajZadatak">Dodaj</button>
+        </div>
+
+        <ul>
+            @foreach (var stavka in listaZadataka)
+            {
+                <li>@stavka</li>
+            }
+        </ul>
+    </section>
+
+
+    <section class="status-kartica">
+        <h3>@nazivAplikacije</h3>
+        <p>@porukaAplikacije</p>
+        <div class="status-oznaka">
+            Status: <strong>@statusSustava</strong>
+        </div>
+    </section>
+</div>
+
+@code {
+    // --- Logika za Zadatak 1 ---
+    private string klasaBoje = "tekst-plavi";
+
+    private void PromijeniBoju()
+    {
+        if (klasaBoje == "tekst-plavi")
+        {
+            klasaBoje = "tekst-crveni";
+        }
+        else
+        {
+            klasaBoje = "tekst-plavi";
+        }
+    }
+
+    // --- Logika za Zadatak 2 ---
+    private int brojac = 0;
+
+    private void Povecaj()
+    {
+        brojac++;
+    }
+
+    private void Smanji()
+    {
+        brojac--;
+    }
+
+    // --- Logika za Zadatak 3 ---
+    private string ime = "";
+    private string prezime = "";
+
+    // --- Logika za Zadatak 4 ---
+    bool prikaziPoruku = false;
+
+    void PromijeniVidljivost()
+    {
+        prikaziPoruku = !prikaziPoruku;
+    }
+
+    // --- ZADATAK 5 LOGIKA ---
+    
+    private List<string> omiljeneIgrice = new List<string>
+    {
+        "FIFA 14",
+        "Grand Theft Auto V",
+        "Minecraft"
+    };
+
+    // --- ZADATAK 6 LOGIKA ---
+    private string noviZadatak = ""; 
+    private List<string> listaZadataka = new List<string>(); 
+
+    private void DodajZadatak()
+    {
+        
+        if (!string.IsNullOrWhiteSpace(noviZadatak))
+        {
+            listaZadataka.Add(noviZadatak); 
+            noviZadatak = ""; 
+        }
+    }
+
+
+    // --- ZADATAK 7 LOGIKA ---
+    private string nazivAplikacije = "Moja Blazor Aplikacija";
+    private string porukaAplikacije = "Svi sustavi rade optimalno. Nema uočenih grešaka.";
+    private string statusSustava = "Aktivan / Online";
+}
