@@ -1,6 +1,186 @@
 ﻿@page "/species"
 
-<MudText Typo="Typo.h4">Species</MudText>
+<MudText Typo="Typo.h4" GutterBottom="true">Species</MudText>
+
 <MudText Typo="Typo.body1">
-    Ovdje će se prikazivati vrste životinja.
+    Pregled vrsta životinja koje azil prima i zbrinjava. Svaka vrsta uključuje osnovne biološke podatke
+    te trenutni broj jedinki evidentiranih u sustavu. Odabirom vrste možeš pregledati povezane pasmine i životinje.
 </MudText>
+
+<MudDivider Class="my-4" />
+
+<MudGrid Spacing="3">
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Style="height: 100%;">
+            <MudCardMedia Image="images/dogs.jpg"
+                          Alt="Psi"
+                          Height="160" />
+            <MudCardContent>
+                <MudText Typo="Typo.h6" GutterBottom="true">Dogs</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary" GutterBottom="true">
+                    <i>Canis lupus familiaris</i>
+                </MudText>
+                <MudDivider Class="my-2" />
+                <MudText Typo="Typo.body2" GutterBottom="true">
+                    Vjerne i društvene životinje, najbrojnije u skloništima za životinje.
+                </MudText>
+                <MudSimpleTable Dense="true" Hover="false" Style="font-size: 0.82rem;">
+                    <tbody>
+                        <tr>
+                            <td><b>Životni vijek</b></td>
+                            <td>10 – 13 godina</td>
+                        </tr>
+                        <tr>
+                            <td><b>Prehrana</b></td>
+                            <td>Svežder</td>
+                        </tr>
+                        <tr>
+                            <td><b>Jedinki u azilu</b></td>
+                            <td>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">18</MudChip>
+                            </td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true">
+                    Prikaži detalje
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Style="height: 100%;">
+            <MudCardMedia Image="images/cat.jpg"
+                          Alt="Mačke"
+                          Height="160" />
+            <MudCardContent>
+                <MudText Typo="Typo.h6" GutterBottom="true">Cats</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary" GutterBottom="true">
+                    <i>Felis catus</i>
+                </MudText>
+                <MudDivider Class="my-2" />
+                <MudText Typo="Typo.body2" GutterBottom="true">
+                    Samostalne i znatiželjne životinje, prilagodljive na različita okruženja.
+                </MudText>
+                <MudSimpleTable Dense="true" Hover="false" Style="font-size: 0.82rem;">
+                    <tbody>
+                        <tr>
+                            <td><b>Životni vijek</b></td>
+                            <td>12 – 18 godina</td>
+                        </tr>
+                        <tr>
+                            <td><b>Prehrana</b></td>
+                            <td>Mesojed</td>
+                        </tr>
+                        <tr>
+                            <td><b>Jedinki u azilu</b></td>
+                            <td>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">12</MudChip>
+                            </td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true">
+                    Prikaži detalje
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Style="height: 100%;">
+            <MudCardMedia Image="images/rabbit.jpg"
+                          Alt="Zečevi"
+                          Height="160" />
+            <MudCardContent>
+                <MudText Typo="Typo.h6" GutterBottom="true">Rabbits</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary" GutterBottom="true">
+                    <i>Oryctolagus cuniculus</i>
+                </MudText>
+                <MudDivider Class="my-2" />
+                <MudText Typo="Typo.body2" GutterBottom="true">
+                    Tihe i pitome životinje koje zahtijevaju pažljivu i redovitu njegu.
+                </MudText>
+                <MudSimpleTable Dense="true" Hover="false" Style="font-size: 0.82rem;">
+                    <tbody>
+                        <tr>
+                            <td><b>Životni vijek</b></td>
+                            <td>8 – 12 godina</td>
+                        </tr>
+                        <tr>
+                            <td><b>Prehrana</b></td>
+                            <td>Biljojed</td>
+                        </tr>
+                        <tr>
+                            <td><b>Jedinki u azilu</b></td>
+                            <td>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">7</MudChip>
+                            </td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true">
+                    Prikaži detalje
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+
+    <MudItem xs="12" sm="6" md="3">
+        <MudCard Elevation="2" Style="height: 100%;">
+            <MudCardMedia Image="images/bird.jpg"
+                          Alt="Ptice"
+                          Height="160" />
+            <MudCardContent>
+                <MudText Typo="Typo.h6" GutterBottom="true">Birds</MudText>
+                <MudText Typo="Typo.caption" Color="Color.Secondary" GutterBottom="true">
+                    <i>Aves</i>
+                </MudText>
+                <MudDivider Class="my-2" />
+                <MudText Typo="Typo.body2" GutterBottom="true">
+                    Raznolike ptice koje zahtijevaju sigurno gnijezdo i redovito hranjenje.
+                </MudText>
+                <MudSimpleTable Dense="true" Hover="false" Style="font-size: 0.82rem;">
+                    <tbody>
+                        <tr>
+                            <td><b>Životni vijek</b></td>
+                            <td>5 – 20 godina</td>
+                        </tr>
+                        <tr>
+                            <td><b>Prehrana</b></td>
+                            <td>Svežder</td>
+                        </tr>
+                        <tr>
+                            <td><b>Jedinki u azilu</b></td>
+                            <td>
+                                <MudChip T="string" Size="Size.Small" Color="Color.Primary" Variant="Variant.Filled">9</MudChip>
+                            </td>
+                        </tr>
+                    </tbody>
+                </MudSimpleTable>
+            </MudCardContent>
+            <MudCardActions>
+                <MudButton Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           FullWidth="true">
+                    Prikaži detalje
+                </MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+
+</MudGrid>
