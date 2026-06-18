@@ -1,30 +1,164 @@
 ﻿@page "/animals"
-<MudGrid>
-    <MudItem xs="12" md="6">
-        <MudPaper Class="pa-4">Animals</MudPaper>
+@rendermode InteractiveServer
+@using AzilEdu.Shared.Models
+
+<PageTitle>Životinje</PageTitle>
+
+<MudText Typo="Typo.h4" Class="mb-2">Popis životinja</MudText>
+<MudText Typo="Typo.body1" Class="mb-4">
+    Ovdje se prikazuje pregled životinja koje se trenutačno nalaze u azilu.
+</MudText>
+
+
+<MudGrid Class="mb-4">
+    <MudItem xs="12" sm="3">
+        <MudPaper Class="pa-4" Style="background-color: var(--mud-palette-background-grey);">
+            <MudText Typo="Typo.subtitle2">Ukupno životinja</MudText>
+            <MudText Typo="Typo.h5">@TotalAnimals</MudText>
+        </MudPaper>
     </MudItem>
-    <MudItem xs="12" md="6">
-        <MudPaper Class="pa-4">Species</MudPaper>
+    <MudItem xs="12" sm="3">
+        <MudPaper Class="pa-4" Style="background-color: #e6f7ed;">
+            <MudText Typo="Typo.subtitle2">Udomljene / U azilu</MudText>
+            <MudText Typo="Typo.h5">
+                <span style="color: green;">@AdoptedAnimals</span> / <span style="color: orange;">@AnimalsInShelter</span>
+            </MudText>
+        </MudPaper>
+    </MudItem>
+
+    <MudItem xs="12" sm="3">
+        <MudPaper Class="pa-4" Style="background-color: #f0f4f8;">
+            <MudText Typo="Typo.subtitle2">Ukupno pasa 🐶</MudText>
+            <MudText Typo="Typo.h5" Color="Color.Primary">@TotalDogs</MudText>
+        </MudPaper>
+    </MudItem>
+    <MudItem xs="12" sm="3">
+        <MudPaper Class="pa-4" Style="background-color: #f0f4f8;">
+            <MudText Typo="Typo.subtitle2">Ukupno mačaka 🐱</MudText>
+            <MudText Typo="Typo.h5" Color="Color.Secondary">@TotalCats</MudText>
+        </MudPaper>
     </MudItem>
 </MudGrid>
 
-<MudGrid>
-    <MudItem xs="12" md="4">
-        <MudPaper Class="pa-4">Animals</MudPaper>
-    </MudItem>
-    <MudItem xs="12" md="4">
-        <MudPaper Class="pa-4">Species</MudPaper>
-    </MudItem>
-    <MudItem xs="12" md="4">
-        <MudPaper Class="pa-4">Adopters</MudPaper>
-    </MudItem>
-</MudGrid>
 
-<MudGrid>
-    <MudItem xs="12" md="8">
-        <MudPaper Class="pa-4">Glavni sadržaj</MudPaper>
-    </MudItem>
-    <MudItem xs="12" md="4">
-        <MudPaper Class="pa-4">Bočni sadržaj</MudPaper>
-    </MudItem>
-</MudGrid>
+<div class="d-flex flex-wrap gap-4 mb-4">
+    <div>
+        <MudText Typo="Typo.subtitle2" Class="mb-1">Filter po statusu:</MudText>
+        <MudButtonGroup Color="Color.Primary" Variant="Variant.Outlined">
+            <MudButton OnClick="@ShowAllAnimals" Variant="@(selectedStatus == "Sve" ? Variant.Filled : Variant.Outlined)">Sve</MudButton>
+            <MudButton OnClick="@ShowAnimalsInShelter" Variant="@(selectedStatus == "U azilu" ? Variant.Filled : Variant.Outlined)">U azilu</MudButton>
+            <MudButton OnClick="@ShowAdoptedAnimals" Variant="@(selectedStatus == "Udomljene" ? Variant.Filled : Variant.Outlined)">Udomljene</MudButton>
+        </MudButtonGroup>
+    </div>
+
+    <div>
+        <MudText Typo="Typo.subtitle2" Class="mb-1">Filter po vrsti:</MudText>
+        <MudButtonGroup Color="Color.Secondary" Variant="Variant.Outlined">
+            <MudButton OnClick='() => FilterBySpecies("Sve")' Variant="@(selectedSpecies == "Sve" ? Variant.Filled : Variant.Outlined)">Sve vrste</MudButton>
+            <MudButton OnClick='() => FilterBySpecies("Pas")' Variant="@(selectedSpecies == "Pas" ? Variant.Filled : Variant.Outlined)">Psi</MudButton>
+            <MudButton OnClick='() => FilterBySpecies("Mačka")' Variant="@(selectedSpecies == "Mačka" ? Variant.Filled : Variant.Outlined)">Mačke</MudButton>
+        </MudButtonGroup>
+    </div>
+</div>
+
+@* ================= MUDTABLE PRIKAZ ================= *@
+<MudTable Items="@FilteredAnimals" Hover="true" Striped="true" Bordered="true" Dense="true">
+    <HeaderContent>
+        <MudTh>Slika</MudTh>
+        <MudTh>Ime</MudTh>
+        <MudTh>Vrsta</MudTh>
+        <MudTh>Pasmina</MudTh>
+        <MudTh>Spol</MudTh>
+        <MudTh>Starost</MudTh>
+        <MudTh>Datum dolaska</MudTh>
+        <MudTh>Opis (Izazov)</MudTh> 
+        <MudTh>Status</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Slika">
+            <MudAvatar Size="Size.Large">
+                <MudImage Src="@context.ImageUrl" Alt="@context.Name" />
+            </MudAvatar>
+        </MudTd>
+        <MudTd DataLabel="Ime">@context.Name</MudTd>
+        <MudTd DataLabel="Vrsta">@context.Species</MudTd>
+        <MudTd DataLabel="Pasmina">@context.Breed</MudTd>
+        <MudTd DataLabel="Spol">@context.Gender</MudTd>
+        <MudTd DataLabel="Starost">@GetAgeText(context)</MudTd>
+        <MudTd DataLabel="Datum dolaska">@GetArrivalDateText(context)</MudTd>
+        <MudTd DataLabel="Opis">@GetShortDescription(context.Description)</MudTd>
+        <MudTd DataLabel="Status">
+            <MudChip T="string"
+                     Color="@(context.IsAdopted ? Color.Success : Color.Warning)"
+                     Variant="Variant.Filled">
+                @GetAdoptionStatusText(context)
+            </MudChip>
+        </MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+    private List<Animal> animals = new()
+    {
+        new Animal { Id = 1, Name = "Luna", Species = "Pas", Breed = "Labrador", Gender = "Ženka", Age = 3, ArrivalDate = new DateTime(2025, 10, 12), IsAdopted = false, ImageUrl = "/images/animals/luna.webp", Description = "Mirna i druželjubiva kujica koja voli duge šetnje i igru s djecom." },
+        new Animal { Id = 2, Name = "Maza", Species = "Mačka", Breed = "Domaća kratkodlaka", Gender = "Ženka", Age = 2, ArrivalDate = new DateTime(2025, 11, 5), IsAdopted = true, ImageUrl = "/images/animals/maza.webp", Description = "Zaigrana mačka naviknuta na boravak u zatvorenom prostoru." },
+        new Animal { Id = 3, Name = "Rex", Species = "Pas", Breed = "Njemački ovčar", Gender = "Mužjak", Age = 5, ArrivalDate = new DateTime(2026, 1, 20), IsAdopted = false, ImageUrl = "/images/animals/rex.webp", Description = "Aktivan pas koji traži iskusnijeg vlasnika i puno trčanja." },
+        new Animal { Id = 4, Name = "Nala", Species = "Mačka", Breed = "Maine Coon mješanac", Gender = "Ženka", Age = null, ArrivalDate = new DateTime(2026, 2, 3), IsAdopted = false, ImageUrl = "/images/animals/nala.webp", Description = "Mlada mačka pronađena bez poznate povijesti, jako umiljata." },
+        new Animal { Id = 5, Name = "Tobi", Species = "Pas", Breed = "Mješanac", Gender = "Mužjak", Age = 1, ArrivalDate = null, IsAdopted = false, ImageUrl = "/images/animals/tobi.jpg", Description = "Vesel pas kojem datum dolaska još nije službeno potvrđen u sustavu." },
+        new Animal { Id = 6, Name = "Bruno", Species = "Pas", Breed = "Bigl", Gender = "Mužjak", Age = 4, ArrivalDate = new DateTime(2025, 9, 18), IsAdopted = true, ImageUrl = "/images/animals/bruno.webp", Description = "Udomljen pas koji ostaje u trajnoj evidenciji našeg azila." },
+
+
+        new Animal { Id = 7, Name = "Srećko", Species = "Mačka", Breed = "Nepoznata", Gender = "Mužjak", Age = null, ArrivalDate = null, IsAdopted = false, ImageUrl = "/images/animals/tobi.jpg", Description = "Pronađen ozlijeđen u kutiji, oporavlja se i čeka dom." }
+    };
+
+    private string selectedStatus = "Sve";
+    private string selectedSpecies = "Sve";
+
+    
+    private int TotalAnimals => animals.Count;
+    private int AnimalsInShelter => animals.Count(animal => !animal.IsAdopted);
+    private int AdoptedAnimals => animals.Count(animal => animal.IsAdopted);
+
+    
+    private int TotalDogs => animals.Count(animal => animal.Species.Equals("Pas", StringComparison.OrdinalIgnoreCase));
+    private int TotalCats => animals.Count(animal => animal.Species.Equals("Mačka", StringComparison.OrdinalIgnoreCase));
+
+    
+    private IEnumerable<Animal> FilteredAnimals
+    {
+        get
+        {
+            IEnumerable<Animal> result = animals;
+
+            if (selectedStatus == "U azilu") result = result.Where(a => !a.IsAdopted);
+            else if (selectedStatus == "Udomljene") result = result.Where(a => a.IsAdopted);
+
+            if (selectedSpecies != "Sve")
+            {
+                result = result.Where(a => a.Species.Equals(selectedSpecies, StringComparison.OrdinalIgnoreCase));
+            }
+
+            return result;
+        }
+    }
+
+    private void ShowAllAnimals() => selectedStatus = "Sve";
+    private void ShowAnimalsInShelter() => selectedStatus = "U azilu";
+    private void ShowAdoptedAnimals() => selectedStatus = "Udomljene";
+    private void FilterBySpecies(string species) => selectedSpecies = species;
+
+    private string GetAgeText(Animal animal) => animal.Age.HasValue ? $"{animal.Age.Value} god." : "Nepoznato";
+    private string GetArrivalDateText(Animal animal) => animal.ArrivalDate.HasValue ? animal.ArrivalDate.Value.ToShortDateString() : "Nije uneseno";
+    private string GetAdoptionStatusText(Animal animal) => animal.IsAdopted ? "Udomljena" : "U azilu";
+
+    
+    private string GetShortDescription(string description)
+    {
+        if (string.IsNullOrWhiteSpace(description)) return string.Empty;
+
+        var words = description.Split(' ');
+        if (words.Length <= 4) return description;
+
+        return string.Join(" ", words.Take(4)) + "...";
+    }
+}
